@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="/public/admin/plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/public/admin/dist/css/adminlte.min.css">
+</head>
+
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+
+    <%- include('../layouts/header.ejs') %>
+
+      <%- include('../layouts/sidebar.ejs') %>
+
+  
+        <!-- /.content-wrapper -->
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <!-- Main content -->
+        <section class="content">
+          <div class="container-fluid">
+            <!-- Add date pickers to select date range -->
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate" name="startDate">
+
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate" name="endDate">
+
+            <button onclick="applyDateFilter()">Apply Filter</button>
+
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <!-- /.card-header -->
+                  <div class="card-body mb-5">
+                    <h2>Monthly Attendance</h2>
+                    <% attendanceCountMap.forEach((count, employeeId)=> { %>
+                      <p>
+                        <%= allattendance.get(employeeId)[0].employee.name %> - This Month Attendance Percentage: <%=
+                            (count / 27 * 100).toFixed() %>%
+                      </p>
+                      <div class="employee-attendance" data-employee-id="<%= employeeId %>">
+                        <table id="example1" class="table table-bordered table-striped attendance-table">
+                          <!-- Table content will be dynamically updated by the JavaScript function -->
+                          <thead>
+                            <tr>
+                              <th>#Sno.</th>
+                              <th>Employee Name</th>
+                              <th>Employee Email</th>
+                              <th>Date</th>
+                              <th>Working Hours</th>
+                              <th>Attendance Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% var i=1 %>
+                              <% allattendance.get(employeeId).forEach((attendance)=> { %>
+                                <tr>
+                                  <td>
+                                    <%= i++ %>
+                                  </td>
+                                  <td>
+                                    <%= attendance.employee.name %>
+                                  </td>
+                                  <td>
+                                    <%= attendance.employee.email %>
+                                  </td>
+                                  <td>
+                                    <%= attendance.date.toLocaleString('en-US', { month: '2-digit' , day: '2-digit' ,
+                                      year: 'numeric' }) %>
+                                  </td>
+                                  <td>
+                                    <%= attendance.working_hours %>
+                                  </td>
+                                  <td>
+                                    <%= attendance.attendance_status %>
+                                  </td>
+                                </tr>
+                                <% }) %>
+                          </tbody>
+                        </table>
+                      </div>
+                      <% }) %>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+
+              </div>
+            </div>
+            <!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+        <!-- /.content-header -->
+      </div>
+        <!-- admin_dashboard.ejs -->
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+          <!-- Control sidebar content goes here -->
+          <div class="p-3">
+            <h5>Title</h5>
+            <p>Sidebar content</p>
+          </div>
+        </aside>
+        <!-- /.control-sidebar -->
+
+        <!-- Main Footer -->
+        <footer class="main-footer">
+          <!-- To the right -->
+          <div class="float-right d-none d-sm-inline">
+            Anything you want
+          </div>
+          <!-- Default to the left -->
+          <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
+          reserved.
+        </footer>
+  </div>
+  <!-- ./wrapper -->
+
+  
+<!-- JavaScript to handle date filter functionality -->
+<script>
+  function applyDateFilter() {
+    // Get the selected start and end dates from the date pickers
+    var startDateInput = document.getElementById('startDate');
+    var endDateInput = document.getElementById('endDate');
+    var startDate = startDateInput.value;
+    var endDate = endDateInput.value;
+
+    // Redirect to the same page with the selected date range as query parameters
+    window.location.href = `/admin/monthly-attendance?startDate=${startDate}&endDate=${endDate}`;
+  }
+</script>
+
+
+  <!-- jQuery -->
+  <script src="/public/admin/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/public/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/public/admin/dist/js/adminlte.min.js"></script>
+</body>
+
+</html>

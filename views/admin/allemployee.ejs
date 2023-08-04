@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="/public/admin/plugins/fontawesome-free/css/all.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/public/admin/dist/css/adminlte.min.css">
+</head>
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+
+        <%- include('../layouts/header.ejs') %>
+
+            <%- include('../layouts/sidebar.ejs') %>
+
+                <!-- Content Wrapper. Contains page content -->
+                <div class="content-wrapper">
+                    <!-- Content Header (Page header) -->
+
+                    <!-- Main content -->
+                    <section class="content">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                         
+                                            <button type="button" class="btn btn-primary mb-1" data-toggle="modal"
+                                                data-target="#employeeModal" style="float: left;">
+                                                 Add Employee
+                                                <button type="button" class="btn btn-primary mb-1" data-toggle="modal"
+                                                data-target="#salaryModal" style="float: right;">
+                                                <!-- <i class="fa fa-plus"></i> -->   Add Salary
+                                        </div>
+                                        <!-- /.card-header -->
+                                        <div class="card-body">
+                                            <h3 class="card-title">All Employees</h3> <br><br>
+                                            <table id="example1" class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#Sno.</th>
+                                                        <th>Name</th>
+                                                        <th>Email</th>
+                                                        <th>Mobile Number</th>
+                                                        <th>Address</th>
+                                                        <th>Base_Salary</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% allemployee.forEach((employee)=>{ %>
+                                                        <tr>
+                                                            <td>
+                                                                <%= employee.id %>
+                                                            </td>
+                                                            <td>
+                                                                <%= employee.name %>
+                                                            </td>
+                                                            <td>
+                                                                <%= employee.email %>
+                                                            </td>
+                                                            <td>
+                                                                <%= employee.mobile %>
+                                                            </td>
+                                                            <td>
+                                                                <%= employee.address %>
+                                                            </td>
+                                                            <td>
+                                                                <%= employee.base_salary %>
+                                                            </td>
+                                                            <td>
+                                                                <a href="/admin/edit-employee/<%= employee.id %>"
+                                                                    class="btn btn-info">Edit</a>
+                                                                <a href="/admin/delete-employee/<%= employee.id %>"
+                                                                    class="btn btn-danger">Delete</a>
+                                                            </td>
+                                                        </tr>
+                                                    <% })%>
+                                                </tbody>
+                                                <!-- <tfoot>
+                                                    <tr>
+                                                        <th>#Sno.</th>
+                                                        <th>Name</th>
+                                                        <th>Email</th>
+                                                        <th>Mobile Number</th>
+                                                        <th>Address</th>
+                                                        <th>Basic_Salary</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </tfoot> -->
+                                            </table>
+                                                <div class="modal fade" id="employeeModal" tabindex="-1" role="dialog"
+                                                    aria-labelledby="mediumModalLabel" data-backdrop="static"
+                                                    aria-hidden="true" style="display: none;">
+                                                    <div class="modal-dialog modal-lg" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="mediumModalLabel">Add
+                                                                    Employee</h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                    <span aria-hidden="true">×</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form action="/admin/add-employee" method="post"
+                                                                    class="form-horizontal">
+                                                                    <div class="row form-group">
+                                                                        <div class="col col-md-3">
+                                                                            <label for="text-input"
+                                                                                class=" form-control-label">Name</label>
+                                                                        </div>
+                                                                        <div class="col-12 col-md-9">
+                                                                            <input type="text" name="name"
+                                                                                placeholder="Enter Name"
+                                                                                class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group">
+                                                                        <div class="col col-md-3">
+                                                                            <label for="text-input"
+                                                                                class=" form-control-label">Email</label>
+                                                                        </div>
+                                                                        <div class="col-12 col-md-9">
+                                                                            <input type="text" name="email"
+                                                                                placeholder="Enter Email"
+                                                                                class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group">
+                                                                        <div class="col col-md-3">
+                                                                            <label for="text-input"
+                                                                                class=" form-control-label">Mobile</label>
+                                                                        </div>
+                                                                        <div class="col-12 col-md-9">
+                                                                            <input type="text" name="mobile"
+                                                                                placeholder="Enter Your Mobile Number"
+                                                                                class="form-control">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row form-group">
+                                                                        <div class="col col-md-3">
+                                                                            <label for="textarea-input"
+                                                                                class=" form-control-label">Address</label>
+                                                                        </div>
+                                                                        <div class="col-12 col-md-9">
+                                                                            <textarea name="address" id="textarea-input"
+                                                                                rows="9" placeholder="Enter Address..."
+                                                                                class="form-control"></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row form-group">
+                                                                        <div class="col col-md-3">
+                                                                            <label for="text-input"
+                                                                                class=" form-control-label">Base
+                                                                                Salary</label>
+                                                                        </div>
+                                                                        <div class="col-12 col-md-9">
+                                                                            <input type="text" name="base_salary"
+                                                                                placeholder="Enter Base Salary"
+                                                                                class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary btn-md">
+                                                                        <i class="fa fa-dot-circle-o"></i> Submit
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="modal fade" id="salaryModal" tabindex="-1" role="dialog"
+                                                aria-labelledby="mediumModalLabel" data-backdrop="static"
+                                                aria-hidden="true" style="display: none;">
+                                                <div class="modal-dialog modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="mediumModalLabel">Add
+                                                                Salary</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">×</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form action="/add-salary" method="post"
+                                                                class="form-horizontal">
+                                                                <div class="row form-group">
+                                                                    <div class="col col-md-3">
+                                                                        <label for="text-input"
+                                                                            class="form-control-label">Select Employee</label>
+                                                                    </div>
+                                                                    <div class="col-12 col-md-9">
+                                                                        <select class="form-select form-control" name="employee_id" required>
+                                                                            <% allemployee.forEach((employee)=>{ %>
+                                                                                <!-- <input type="text" value="<%= employee.id %>"> -->
+                                                                            <option value="<%= employee.id %>"><%= employee.name %></option>
+                                                                            <% })%>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row form-group">
+                                                                    <div class="col col-md-3">
+                                                                        <label for="text-input"
+                                                                            class=" form-control-label">Month</label>
+                                                                    </div>
+                                                                    <div class="col-12 col-md-9">
+                                                                        <input type="text" name="month"
+                                                                            placeholder="Enter Month"
+                                                                            class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row form-group">
+                                                                    <div class="col col-md-3">
+                                                                        <label for="text-input"
+                                                                            class=" form-control-label">Year</label>
+                                                                    </div>
+                                                                    <div class="col-12 col-md-9">
+                                                                        <input type="text" name="year"
+                                                                            placeholder="Enter Year"
+                                                                            class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row form-group">
+                                                                    <div class="col col-md-3">
+                                                                        <label for="text-input"
+                                                                            class=" form-control-label">Total Working Days</label>
+                                                                    </div>
+                                                                    <div class="col-12 col-md-9">
+                                                                        <input type="text" name="total_working_days"
+                                                                            placeholder="Enter Total Working Days"
+                                                                            class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row form-group">
+                                                                    <div class="col col-md-3">
+                                                                        <label for="text-input"
+                                                                            class=" form-control-label">Total Leaves Taken
+                                                                    </label>
+                                                                    </div>
+                                                                    <div class="col-12 col-md-9">
+                                                                        <input type="text" name="total_leaves_taken"
+                                                                            placeholder="Enter Total Leave Taken"
+                                                                            class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row form-group">
+                                                                    <div class="col col-md-3">
+                                                                        <label for="text-input"
+                                                                            class=" form-control-label">OverTime
+                                                                    </label>
+                                                                    </div>
+                                                                    <div class="col-12 col-md-9">
+                                                                        <input type="integer" name="overtime"
+                                                                            placeholder="Enter OverTime"
+                                                                            class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <button type="submit"
+                                                                    class="btn btn-primary btn-md">
+                                                                    <i class="fa fa-dot-circle-o"></i> Submit
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+                                        <!-- /.card-body -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.container-fluid -->
+                    </section>
+                    <!-- /.content -->
+                </div>
+                <!-- /.content-wrapper -->
+                <!-- Main Footer -->
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- REQUIRED SCRIPTS -->
+
+    <!-- jQuery -->
+    <script src="/public/admin/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="/public/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="/public/admin/dist/js/adminlte.min.js"></script>
+</body>
+
+</html>
